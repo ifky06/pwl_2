@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,21 @@ use Illuminate\Support\Facades\Route;
 //     echo "Halaman Artikel dengan ID ".$id;
 // });
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/about', [AboutController::class, 'index']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
+// Route::get('/', [HomeController::class, 'index']);
+// Route::get('/about', [AboutController::class, 'index']);
+// Route::get('/articles/{id}', [ArticleController::class, 'show']);
+
+Route::get('/', [PageController::class, 'home']);
+Route::prefix('product')->group(function () {
+    Route::get('/list', [PageController::class, 'product']);
+});
+
+Route::get('/news/{param}', [PageController::class, 'news']);
+
+Route::prefix('program')->group(function () {
+    Route::get('/list', [PageController::class, 'program']);
+});
+
+Route::get('/about', [PageController::class, 'about']);
+
+Route::resource('contact', pageController::class);
